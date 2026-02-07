@@ -1,263 +1,599 @@
-import React, { useState } from 'react';
-import { Heart } from 'lucide-react';
-
-const App = () => {
-  const [isBlooming, setIsBlooming] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
-
-  const handleBloom = () => {
-    setIsBlooming(true);
-    setTimeout(() => setShowMessage(true), 2500);
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-[#fdf2f8] to-[#fff1f2] flex flex-col items-center justify-center overflow-hidden relative p-6 font-serif">
-      
-      {/* Decorative Border Frame */}
-      <div className="absolute inset-6 border border-rose-200/60 rounded-[40px] pointer-events-none"></div>
-
-      <div className="z-10 text-center max-w-lg w-full flex flex-col items-center">
-        {!isBlooming ? (
-          <div className="space-y-8 animate-fade-in flex flex-col items-center z-20">
-            <h1 className="text-4xl text-[#881337] font-medium tracking-wide italic drop-shadow-sm font-[Playfair Display]">
-              For You
-            </h1>
-            <p className="text-[#be123c] text-xs uppercase tracking-[0.2em] mb-6 opacity-80">
-              A timeless gift
-            </p>
-            <button
-              onClick={handleBloom}
-              className="group relative px-10 py-4 bg-gradient-to-r from-[#be123c] to-[#9f1239] text-white rounded-full text-lg shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-              <span className="relative z-10 flex items-center gap-3 font-light tracking-wider">
-                Reveal <Heart className="w-4 h-4 fill-current" />
-              </span>
-            </button>
-          </div>
-        ) : (
-          <div className="relative w-full flex flex-col items-center h-[600px] justify-center">
-            
-            {/* REALISTIC ROSE SVG */}
-            <div className="relative w-full h-[500px] flex items-center justify-center">
-              <svg viewBox="0 0 500 600" className="h-full w-auto overflow-visible filter drop-shadow-2xl">
-                <defs>
-                  {/* Stem Gradient */}
-                  <linearGradient id="stemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#052e16" />
-                    <stop offset="40%" stopColor="#14532d" />
-                    <stop offset="60%" stopColor="#166534" />
-                    <stop offset="100%" stopColor="#052e16" />
-                  </linearGradient>
-
-                  {/* Leaf Gradient */}
-                  <linearGradient id="leafGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#064e3b" />
-                    <stop offset="100%" stopColor="#22c55e" />
-                  </linearGradient>
-
-                  {/* Deep Red Petal Gradient (Shadows) */}
-                  <radialGradient id="petalDeep" cx="50%" cy="80%" r="80%">
-                    <stop offset="0%" stopColor="#9f1239" />
-                    <stop offset="100%" stopColor="#4c0519" />
-                  </radialGradient>
-
-                  {/* Mid Red Petal Gradient */}
-                  <radialGradient id="petalMid" cx="50%" cy="100%" r="90%">
-                    <stop offset="0%" stopColor="#e11d48" />
-                    <stop offset="100%" stopColor="#881337" />
-                  </radialGradient>
-
-                  {/* Bright Red Petal Gradient (Highlights) */}
-                  <radialGradient id="petalBright" cx="30%" cy="20%" r="80%">
-                    <stop offset="0%" stopColor="#fb7185" />
-                    <stop offset="40%" stopColor="#e11d48" />
-                    <stop offset="100%" stopColor="#9f1239" />
-                  </radialGradient>
-                  
-                  {/* Soft glow filter */}
-                  <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="2" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                  </filter>
-                </defs>
-
-                {/* STEM & LEAVES GROUP (Centered at bottom) */}
-                <g transform="translate(250, 550)">
-                  {/* Main Stem */}
-                  <path
-                    d="M0,0 C-10,-100 10,-200 0,-300"
-                    stroke="url(#stemGrad)"
-                    strokeWidth="6"
-                    fill="none"
-                    strokeLinecap="round"
-                    className="animate-grow-stem"
-                  />
-                  
-                  {/* Leaves */}
-                  <g className={`transition-all duration-1000 ease-out delay-500 ${isBlooming ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}>
-                    <path
-                      d="M0,-120 Q40,-130 60,-160 Q30,-160 0,-120"
-                      fill="url(#leafGrad)"
-                      className="origin-left hover:scale-110 transition-transform duration-300"
-                    />
-                     <path
-                      d="M0,-120 Q40,-130 60,-160 Q30,-160 0,-120"
-                      fill="none" stroke="#14532d" strokeWidth="0.5" opacity="0.3"
-                    />
-                    
-                    <path
-                      d="M0,-200 Q-50,-210 -70,-240 Q-30,-240 0,-200"
-                      fill="url(#leafGrad)"
-                      className="origin-right hover:scale-110 transition-transform duration-300"
-                    />
-                     <path
-                      d="M0,-200 Q-50,-210 -70,-240 Q-30,-240 0,-200"
-                      fill="none" stroke="#14532d" strokeWidth="0.5" opacity="0.3"
-                    />
-                  </g>
-                  
-                  {/* Thorns */}
-                  <g className={`transition-opacity duration-1000 delay-700 ${isBlooming ? 'opacity-100' : 'opacity-0'}`}>
-                    <path d="M2,-80 L10,-75 L2,-70 Z" fill="#3f6212" />
-                    <path d="M-2,-180 L-12,-175 L-2,-170 Z" fill="#3f6212" />
-                  </g>
-                </g>
-
-                {/* FLOWER HEAD GROUP (Centered at top of stem: 250, 250) */}
-                <g transform="translate(250, 250)">
-                  
-                  {/* Sepals (Green base) */}
-                  <g className={`transition-all duration-700 delay-300 ${isBlooming ? 'opacity-100' : 'opacity-0'}`}>
-                     <path d="M0,20 Q-15,40 -25,10 Q-10,10 0,20" fill="#166534" />
-                     <path d="M0,20 Q15,40 25,10 Q10,10 0,20" fill="#166534" />
-                     <path d="M0,20 Q0,50 0,10" fill="#14532d" />
-                  </g>
-
-                  {/* BLOOM LAYERS (Back to Front) */}
-                  
-                  {/* Layer 1: Outer Back (Darkest Shadows) */}
-                  <g className="transition-all duration-[2000ms] ease-out" 
-                     style={{ transform: isBlooming ? 'scale(1) rotate(0deg)' : 'scale(0) rotate(90deg)' }}>
-                    <path
-                      d="M-40,0 C-80,-60 -50,-130 0,-140 C50,-130 80,-60 40,0 C20,20 -20,20 -40,0"
-                      fill="url(#petalDeep)"
-                    />
-                  </g>
-
-                  {/* Layer 2: Outer Side Petals (Unfurling Wide) */}
-                  <g className="transition-all duration-[2000ms] ease-out delay-100"
-                     style={{ transform: isBlooming ? 'scale(1)' : 'scale(0.1)' }}>
-                    {/* Left Back */}
-                    <path
-                      d="M0,10 C-60,10 -100,-60 -60,-110 C-40,-100 0,0 0,10"
-                      fill="url(#petalDeep)"
-                      className="transition-transform duration-[2000ms] ease-out"
-                      style={{ transform: isBlooming ? 'rotate(-10deg) translate(-10px, 0)' : 'rotate(0)' }}
-                    />
-                    {/* Right Back */}
-                    <path
-                      d="M0,10 C60,10 100,-60 60,-110 C40,-100 0,0 0,10"
-                      fill="url(#petalDeep)"
-                      className="transition-transform duration-[2000ms] ease-out"
-                      style={{ transform: isBlooming ? 'rotate(10deg) translate(10px, 0)' : 'rotate(0)' }}
-                    />
-                  </g>
-
-                  {/* Layer 3: Mid Body (Main Color) */}
-                  <g className="transition-all duration-[2000ms] ease-out delay-300"
-                     style={{ transform: isBlooming ? 'scale(1)' : 'scale(0.1)' }}>
-                     <path
-                      d="M-30,10 C-70,-20 -80,-100 0,-120 C80,-100 70,-20 30,10 C10,20 -10,20 -30,10"
-                      fill="url(#petalMid)"
-                    />
-                  </g>
-
-                  {/* Layer 4: Inner Cup (Brighter) */}
-                  <g className="transition-all duration-[1500ms] ease-out delay-500"
-                     style={{ transform: isBlooming ? 'scale(1)' : 'scale(0.1) translateY(20px)' }}>
-                     <path
-                      d="M-25,0 C-50,-20 -50,-90 0,-100 C50,-90 50,-20 25,0 C10,10 -10,10 -25,0"
-                      fill="url(#petalBright)"
-                    />
-                  </g>
-
-                  {/* Layer 5: Center Spiral (The Core) */}
-                  <g className="transition-all duration-[1500ms] ease-out delay-700"
-                     style={{ transform: isBlooming ? 'scale(1)' : 'scale(0)' }}>
-                    {/* Spiral Piece 1 */}
-                    <path
-                      d="M0,-20 C-20,-40 -20,-80 0,-90 C20,-80 20,-40 0,-20"
-                      fill="#e11d48"
-                      opacity="0.9"
-                    />
-                    {/* Spiral Piece 2 */}
-                    <path
-                      d="M-5,-40 C-15,-60 15,-60 5,-40"
-                      stroke="#fecdd3"
-                      strokeWidth="2"
-                      fill="none"
-                      strokeLinecap="round"
-                    />
-                     {/* Tight Center */}
-                    <path
-                      d="M-10,-50 C-10,-70 10,-70 10,-50 C10,-40 -10,-40 -10,-50"
-                      fill="#fb7185"
-                    />
-                  </g>
-
-                  {/* Dew Drop (Extra detail) */}
-                  <circle 
-                    cx="-30" cy="-80" r="3" 
-                    fill="white" 
-                    opacity="0.6"
-                    className={`transition-opacity duration-1000 delay-[2000ms] ${isBlooming ? 'opacity-60' : 'opacity-0'}`}
-                  />
-                  
-                </g>
-              </svg>
-            </div>
-
-            {/* Message Card */}
-            <div 
-              className={`absolute bottom-16 left-0 right-0 mx-auto max-w-sm text-center transform transition-all duration-1000 delay-1000 ${
-                showMessage ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
-            >
-              <div className="bg-white/40 backdrop-blur-md p-8 rounded-2xl shadow-lg border border-white/50">
-                <p className="text-3xl text-[#881337] font-normal leading-relaxed font-serif italic mb-2">
-                  "Just a beautiful rose for a beautiful heart"
-                </p>
-                <div className="w-full flex justify-center mt-4 opacity-50">
-                   <div className="w-1 h-1 bg-[#be123c] rounded-full mx-1"></div>
-                   <div className="w-1 h-1 bg-[#be123c] rounded-full mx-1"></div>
-                   <div className="w-1 h-1 bg-[#be123c] rounded-full mx-1"></div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        )}
-      </div>
-
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Rose Day ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Text:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .animate-fade-in {
-          animation: fadeIn 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f0e68c;
+            --gold-dark: #b8941f;
+            --pink: #ff6b9d;
+            --pink-light: #ffc4d6;
+            --pink-dark: #e91e63;
+            --cream: #fff8f0;
+            --text: #2c1810;
         }
-        @keyframes growStem {
-          from { stroke-dasharray: 400; stroke-dashoffset: 400; }
-          to { stroke-dasharray: 400; stroke-dashoffset: 0; }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--text);
+            position: relative;
         }
-        .animate-grow-stem {
-          animation: growStem 2.5s ease-in-out forwards;
+
+        /* Animated gradient background */
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(212, 175, 55, 0.15) 0%, transparent 50%);
+            animation: bgShift 10s ease-in-out infinite alternate;
+            pointer-events: none;
         }
-      `}} />
+
+        @keyframes bgShift {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Stars background */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Welcome screen */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeOut 1s ease-out 3s forwards;
+        }
+
+        .welcome-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4rem;
+            color: var(--gold);
+            text-align: center;
+            animation: glow 2s ease-in-out infinite, fadeInScale 1s ease-out;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 20px rgba(212, 175, 55, 0.5),
+                             0 0 40px rgba(212, 175, 55, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 30px rgba(212, 175, 55, 0.8),
+                             0 0 60px rgba(212, 175, 55, 0.5);
+            }
+        }
+
+        /* Main title */
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--pink) 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: titleReveal 2s ease-out 3.5s both;
+            letter-spacing: 2px;
+            filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.3));
+        }
+
+        @keyframes titleReveal {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards container */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            width: 100%;
+            animation: cardsReveal 1.5s ease-out 4s both;
+        }
+
+        @keyframes cardsReveal {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Rose cards */
+        .rose-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .rose-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .rose-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .rose-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Pink card specific */
+        .rose-card.pink {
+            border: 3px solid var(--pink);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 196, 214, 0.1) 100%);
+        }
+
+        .rose-card.pink:hover {
+            box-shadow: 0 30px 80px rgba(255, 107, 157, 0.5);
+        }
+
+        /* Gold card specific */
+        .rose-card.gold {
+            border: 3px solid var(--gold);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 230, 140, 0.1) 100%);
+        }
+
+        .rose-card.gold:hover {
+            box-shadow: 0 30px 80px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Rose SVG container */
+        .rose-container {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 2rem;
+            position: relative;
+            animation: roseFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes roseFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        .rose-card:hover .rose-container {
+            animation: roseGrow 0.6s ease-out forwards;
+        }
+
+        @keyframes roseGrow {
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+            50% {
+                transform: scale(1.15) rotate(10deg);
+            }
+            100% {
+                transform: scale(1.1) rotate(0deg);
+            }
+        }
+
+        .rose-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Message text */
+        .message {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            font-weight: 600;
+        }
+
+        .rose-card.pink .message {
+            color: #c91757;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8),
+                         0 0 10px rgba(255, 107, 157, 0.3);
+        }
+
+        .rose-card.gold .message {
+            color: #996d0d;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8),
+                         0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Quote marks */
+        .quote-mark {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            opacity: 0.2;
+            position: absolute;
+            font-weight: 900;
+        }
+
+        .quote-mark.open {
+            top: 1rem;
+            left: 1rem;
+        }
+
+        .quote-mark.close {
+            bottom: 1rem;
+            right: 1rem;
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: currentColor;
+            border-radius: 50%;
+            animation: sparkleAnim 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .rose-card.pink .sparkle {
+            color: var(--pink);
+        }
+
+        .rose-card.gold .sparkle {
+            color: var(--gold);
+        }
+
+        @keyframes sparkleAnim {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5) rotate(180deg);
+            }
+        }
+
+        .sparkle:nth-child(1) { top: 15%; left: 15%; animation-delay: 0s; }
+        .sparkle:nth-child(2) { top: 20%; right: 20%; animation-delay: 0.5s; }
+        .sparkle:nth-child(3) { bottom: 20%; left: 25%; animation-delay: 1s; }
+        .sparkle:nth-child(4) { bottom: 15%; right: 15%; animation-delay: 1.5s; }
+
+        /* Floating petals */
+        .petal {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50% 0 50% 0;
+            opacity: 0;
+            animation: floatPetal 15s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        .petal.pink {
+            background: radial-gradient(ellipse at center, var(--pink) 0%, var(--pink-light) 100%);
+        }
+
+        .petal.gold {
+            background: radial-gradient(ellipse at center, var(--gold) 0%, var(--gold-light) 100%);
+        }
+
+        @keyframes floatPetal {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .petal:nth-child(1) { left: 5%; animation-delay: 0s; animation-duration: 14s; }
+        .petal:nth-child(2) { left: 15%; animation-delay: 2s; animation-duration: 16s; }
+        .petal:nth-child(3) { left: 25%; animation-delay: 4s; animation-duration: 13s; }
+        .petal:nth-child(4) { left: 35%; animation-delay: 1s; animation-duration: 15s; }
+        .petal:nth-child(5) { left: 45%; animation-delay: 3s; animation-duration: 17s; }
+        .petal:nth-child(6) { left: 55%; animation-delay: 5s; animation-duration: 14s; }
+        .petal:nth-child(7) { left: 65%; animation-delay: 6s; animation-duration: 16s; }
+        .petal:nth-child(8) { left: 75%; animation-delay: 7s; animation-duration: 15s; }
+        .petal:nth-child(9) { left: 85%; animation-delay: 2.5s; animation-duration: 14.5s; }
+        .petal:nth-child(10) { left: 95%; animation-delay: 4.5s; animation-duration: 16.5s; }
+
+        /* Heart decoration */
+        .heart-decoration {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 0.8;
+            }
+            50% { 
+                transform: scale(1.2); 
+                opacity: 1;
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+                margin-bottom: 3rem;
+            }
+
+            .welcome-text {
+                font-size: 2.5rem;
+                padding: 0 1rem;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 0 1rem;
+            }
+
+            .rose-card {
+                padding: 2.5rem 2rem;
+            }
+
+            .rose-container {
+                width: 140px;
+                height: 140px;
+            }
+
+            .message {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .welcome-text {
+                font-size: 2rem;
+            }
+
+            .message {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+    <!-- Welcome Screen -->
+    <div class="welcome-screen">
+        <div class="welcome-text">Happy Rose Day</div>
     </div>
-  );
-};
 
-export default App;
+    <!-- Background overlay -->
+    <div class="bg-overlay"></div>
+
+    <!-- Stars -->
+    <div class="star" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
+    <div class="star" style="top: 20%; left: 80%; animation-delay: 0.5s;"></div>
+    <div class="star" style="top: 30%; left: 40%; animation-delay: 1s;"></div>
+    <div class="star" style="top: 40%; left: 60%; animation-delay: 1.5s;"></div>
+    <div class="star" style="top: 50%; left: 10%; animation-delay: 2s;"></div>
+    <div class="star" style="top: 60%; left: 90%; animation-delay: 2.5s;"></div>
+    <div class="star" style="top: 70%; left: 30%; animation-delay: 3s;"></div>
+    <div class="star" style="top: 80%; left: 70%; animation-delay: 0.8s;"></div>
+    <div class="star" style="top: 15%; left: 50%; animation-delay: 1.2s;"></div>
+    <div class="star" style="top: 85%; left: 45%; animation-delay: 2.8s;"></div>
+
+    <!-- Floating petals -->
+    <div class="petal pink"></div>
+    <div class="petal gold"></div>
+    <div class="petal pink"></div>
+    <div class="petal gold"></div>
+    <div class="petal pink"></div>
+    <div class="petal gold"></div>
+    <div class="petal pink"></div>
+    <div class="petal gold"></div>
+    <div class="petal pink"></div>
+    <div class="petal gold"></div>
+
+    <div class="container">
+        <h1 class="main-title">Happy Rose Day</h1>
+
+        <div class="cards-container">
+            <!-- Pink Rose Card -->
+            <div class="rose-card pink">
+                <div class="sparkle"></div>
+                <div class="sparkle"></div>
+                <div class="sparkle"></div>
+                <div class="sparkle"></div>
+                <span class="quote-mark open">"</span>
+                <span class="quote-mark close">"</span>
+
+                <div class="rose-container">
+                    <svg class="rose-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Pink Rose petals -->
+                        <ellipse cx="100" cy="85" rx="28" ry="38" fill="#ff6b9d" opacity="0.9" transform="rotate(-20 100 85)"/>
+                        <ellipse cx="100" cy="85" rx="28" ry="38" fill="#ff6b9d" opacity="0.95" transform="rotate(20 100 85)"/>
+                        <ellipse cx="100" cy="85" rx="28" ry="38" fill="#ff6b9d" opacity="0.85" transform="rotate(-60 100 85)"/>
+                        <ellipse cx="100" cy="85" rx="28" ry="38" fill="#ff6b9d" transform="rotate(60 100 85)"/>
+                        <ellipse cx="100" cy="80" rx="24" ry="34" fill="#ff85ad" opacity="0.9" transform="rotate(-40 100 80)"/>
+                        <ellipse cx="100" cy="80" rx="24" ry="34" fill="#ff85ad" opacity="0.9" transform="rotate(40 100 80)"/>
+                        <ellipse cx="100" cy="75" rx="20" ry="28" fill="#ffa0c4" transform="rotate(0 100 75)"/>
+                        <circle cx="100" cy="70" r="14" fill="#ffc4d6"/>
+                        <circle cx="100" cy="70" r="7" fill="#ff6b9d"/>
+                        
+                        <!-- Stem -->
+                        <rect x="96" y="95" width="8" height="85" fill="#4a7c59" rx="4"/>
+                        
+                        <!-- Leaves -->
+                        <ellipse cx="82" cy="125" rx="18" ry="10" fill="#5a9068" transform="rotate(-35 82 125)"/>
+                        <ellipse cx="118" cy="150" rx="18" ry="10" fill="#5a9068" transform="rotate(35 118 150)"/>
+                        
+                        <!-- Leaf veins -->
+                        <line x1="82" y1="125" x2="76" y2="132" stroke="#4a7c59" stroke-width="1.5"/>
+                        <line x1="118" y1="150" x2="124" y2="157" stroke="#4a7c59" stroke-width="1.5"/>
+                    </svg>
+                </div>
+
+                <p class="message">
+                    Just a beautiful rose<br>for a beautiful heart
+                </p>
+
+                <div class="heart-decoration">💗 🌹 💗</div>
+            </div>
+
+            <!-- Golden Rose Card -->
+            <div class="rose-card gold">
+                <div class="sparkle"></div>
+                <div class="sparkle"></div>
+                <div class="sparkle"></div>
+                <div class="sparkle"></div>
+                <span class="quote-mark open">"</span>
+                <span class="quote-mark close">"</span>
+
+                <div class="rose-container">
+                    <svg class="rose-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Golden Rose petals -->
+                        <ellipse cx="100" cy="85" rx="28" ry="38" fill="#d4af37" opacity="0.9" transform="rotate(-20 100 85)"/>
+                        <ellipse cx="100" cy="85" rx="28" ry="38" fill="#d4af37" opacity="0.95" transform="rotate(20 100 85)"/>
+                        <ellipse cx="100" cy="85" rx="28" ry="38" fill="#d4af37" opacity="0.85" transform="rotate(-60 100 85)"/>
+                        <ellipse cx="100" cy="85" rx="28" ry="38" fill="#d4af37" transform="rotate(60 100 85)"/>
+                        <ellipse cx="100" cy="80" rx="24" ry="34" fill="#e6c857" opacity="0.9" transform="rotate(-40 100 80)"/>
+                        <ellipse cx="100" cy="80" rx="24" ry="34" fill="#e6c857" opacity="0.9" transform="rotate(40 100 80)"/>
+                        <ellipse cx="100" cy="75" rx="20" ry="28" fill="#f0db6a" transform="rotate(0 100 75)"/>
+                        <circle cx="100" cy="70" r="14" fill="#f5e88d"/>
+                        <circle cx="100" cy="70" r="7" fill="#d4af37"/>
+                        
+                        <!-- Stem -->
+                        <rect x="96" y="95" width="8" height="85" fill="#4a7c59" rx="4"/>
+                        
+                        <!-- Leaves -->
+                        <ellipse cx="82" cy="125" rx="18" ry="10" fill="#5a9068" transform="rotate(-35 82 125)"/>
+                        <ellipse cx="118" cy="150" rx="18" ry="10" fill="#5a9068" transform="rotate(35 118 150)"/>
+                        
+                        <!-- Leaf veins -->
+                        <line x1="82" y1="125" x2="76" y2="132" stroke="#4a7c59" stroke-width="1.5"/>
+                        <line x1="118" y1="150" x2="124" y2="157" stroke="#4a7c59" stroke-width="1.5"/>
+                        
+                        <!-- Golden shimmer effect -->
+                        <circle cx="100" cy="70" r="20" fill="url(#goldShimmer)" opacity="0.3"/>
+                        <defs>
+                            <radialGradient id="goldShimmer">
+                                <stop offset="0%" style="stop-color:#f5e88d;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#d4af37;stop-opacity:0" />
+                            </radialGradient>
+                        </defs>
+                    </svg>
+                </div>
+
+                <p class="message">
+                    Golden rose for a<br>Golden Hearted Person
+                </p>
+
+                <div class="heart-decoration">💛 🌹 💛</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
