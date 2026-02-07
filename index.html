@@ -1,0 +1,263 @@
+import React, { useState } from 'react';
+import { Heart } from 'lucide-react';
+
+const App = () => {
+  const [isBlooming, setIsBlooming] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+
+  const handleBloom = () => {
+    setIsBlooming(true);
+    setTimeout(() => setShowMessage(true), 2500);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-[#fdf2f8] to-[#fff1f2] flex flex-col items-center justify-center overflow-hidden relative p-6 font-serif">
+      
+      {/* Decorative Border Frame */}
+      <div className="absolute inset-6 border border-rose-200/60 rounded-[40px] pointer-events-none"></div>
+
+      <div className="z-10 text-center max-w-lg w-full flex flex-col items-center">
+        {!isBlooming ? (
+          <div className="space-y-8 animate-fade-in flex flex-col items-center z-20">
+            <h1 className="text-4xl text-[#881337] font-medium tracking-wide italic drop-shadow-sm font-[Playfair Display]">
+              For You
+            </h1>
+            <p className="text-[#be123c] text-xs uppercase tracking-[0.2em] mb-6 opacity-80">
+              A timeless gift
+            </p>
+            <button
+              onClick={handleBloom}
+              className="group relative px-10 py-4 bg-gradient-to-r from-[#be123c] to-[#9f1239] text-white rounded-full text-lg shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+              <span className="relative z-10 flex items-center gap-3 font-light tracking-wider">
+                Reveal <Heart className="w-4 h-4 fill-current" />
+              </span>
+            </button>
+          </div>
+        ) : (
+          <div className="relative w-full flex flex-col items-center h-[600px] justify-center">
+            
+            {/* REALISTIC ROSE SVG */}
+            <div className="relative w-full h-[500px] flex items-center justify-center">
+              <svg viewBox="0 0 500 600" className="h-full w-auto overflow-visible filter drop-shadow-2xl">
+                <defs>
+                  {/* Stem Gradient */}
+                  <linearGradient id="stemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#052e16" />
+                    <stop offset="40%" stopColor="#14532d" />
+                    <stop offset="60%" stopColor="#166534" />
+                    <stop offset="100%" stopColor="#052e16" />
+                  </linearGradient>
+
+                  {/* Leaf Gradient */}
+                  <linearGradient id="leafGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#064e3b" />
+                    <stop offset="100%" stopColor="#22c55e" />
+                  </linearGradient>
+
+                  {/* Deep Red Petal Gradient (Shadows) */}
+                  <radialGradient id="petalDeep" cx="50%" cy="80%" r="80%">
+                    <stop offset="0%" stopColor="#9f1239" />
+                    <stop offset="100%" stopColor="#4c0519" />
+                  </radialGradient>
+
+                  {/* Mid Red Petal Gradient */}
+                  <radialGradient id="petalMid" cx="50%" cy="100%" r="90%">
+                    <stop offset="0%" stopColor="#e11d48" />
+                    <stop offset="100%" stopColor="#881337" />
+                  </radialGradient>
+
+                  {/* Bright Red Petal Gradient (Highlights) */}
+                  <radialGradient id="petalBright" cx="30%" cy="20%" r="80%">
+                    <stop offset="0%" stopColor="#fb7185" />
+                    <stop offset="40%" stopColor="#e11d48" />
+                    <stop offset="100%" stopColor="#9f1239" />
+                  </radialGradient>
+                  
+                  {/* Soft glow filter */}
+                  <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="2" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
+
+                {/* STEM & LEAVES GROUP (Centered at bottom) */}
+                <g transform="translate(250, 550)">
+                  {/* Main Stem */}
+                  <path
+                    d="M0,0 C-10,-100 10,-200 0,-300"
+                    stroke="url(#stemGrad)"
+                    strokeWidth="6"
+                    fill="none"
+                    strokeLinecap="round"
+                    className="animate-grow-stem"
+                  />
+                  
+                  {/* Leaves */}
+                  <g className={`transition-all duration-1000 ease-out delay-500 ${isBlooming ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}>
+                    <path
+                      d="M0,-120 Q40,-130 60,-160 Q30,-160 0,-120"
+                      fill="url(#leafGrad)"
+                      className="origin-left hover:scale-110 transition-transform duration-300"
+                    />
+                     <path
+                      d="M0,-120 Q40,-130 60,-160 Q30,-160 0,-120"
+                      fill="none" stroke="#14532d" strokeWidth="0.5" opacity="0.3"
+                    />
+                    
+                    <path
+                      d="M0,-200 Q-50,-210 -70,-240 Q-30,-240 0,-200"
+                      fill="url(#leafGrad)"
+                      className="origin-right hover:scale-110 transition-transform duration-300"
+                    />
+                     <path
+                      d="M0,-200 Q-50,-210 -70,-240 Q-30,-240 0,-200"
+                      fill="none" stroke="#14532d" strokeWidth="0.5" opacity="0.3"
+                    />
+                  </g>
+                  
+                  {/* Thorns */}
+                  <g className={`transition-opacity duration-1000 delay-700 ${isBlooming ? 'opacity-100' : 'opacity-0'}`}>
+                    <path d="M2,-80 L10,-75 L2,-70 Z" fill="#3f6212" />
+                    <path d="M-2,-180 L-12,-175 L-2,-170 Z" fill="#3f6212" />
+                  </g>
+                </g>
+
+                {/* FLOWER HEAD GROUP (Centered at top of stem: 250, 250) */}
+                <g transform="translate(250, 250)">
+                  
+                  {/* Sepals (Green base) */}
+                  <g className={`transition-all duration-700 delay-300 ${isBlooming ? 'opacity-100' : 'opacity-0'}`}>
+                     <path d="M0,20 Q-15,40 -25,10 Q-10,10 0,20" fill="#166534" />
+                     <path d="M0,20 Q15,40 25,10 Q10,10 0,20" fill="#166534" />
+                     <path d="M0,20 Q0,50 0,10" fill="#14532d" />
+                  </g>
+
+                  {/* BLOOM LAYERS (Back to Front) */}
+                  
+                  {/* Layer 1: Outer Back (Darkest Shadows) */}
+                  <g className="transition-all duration-[2000ms] ease-out" 
+                     style={{ transform: isBlooming ? 'scale(1) rotate(0deg)' : 'scale(0) rotate(90deg)' }}>
+                    <path
+                      d="M-40,0 C-80,-60 -50,-130 0,-140 C50,-130 80,-60 40,0 C20,20 -20,20 -40,0"
+                      fill="url(#petalDeep)"
+                    />
+                  </g>
+
+                  {/* Layer 2: Outer Side Petals (Unfurling Wide) */}
+                  <g className="transition-all duration-[2000ms] ease-out delay-100"
+                     style={{ transform: isBlooming ? 'scale(1)' : 'scale(0.1)' }}>
+                    {/* Left Back */}
+                    <path
+                      d="M0,10 C-60,10 -100,-60 -60,-110 C-40,-100 0,0 0,10"
+                      fill="url(#petalDeep)"
+                      className="transition-transform duration-[2000ms] ease-out"
+                      style={{ transform: isBlooming ? 'rotate(-10deg) translate(-10px, 0)' : 'rotate(0)' }}
+                    />
+                    {/* Right Back */}
+                    <path
+                      d="M0,10 C60,10 100,-60 60,-110 C40,-100 0,0 0,10"
+                      fill="url(#petalDeep)"
+                      className="transition-transform duration-[2000ms] ease-out"
+                      style={{ transform: isBlooming ? 'rotate(10deg) translate(10px, 0)' : 'rotate(0)' }}
+                    />
+                  </g>
+
+                  {/* Layer 3: Mid Body (Main Color) */}
+                  <g className="transition-all duration-[2000ms] ease-out delay-300"
+                     style={{ transform: isBlooming ? 'scale(1)' : 'scale(0.1)' }}>
+                     <path
+                      d="M-30,10 C-70,-20 -80,-100 0,-120 C80,-100 70,-20 30,10 C10,20 -10,20 -30,10"
+                      fill="url(#petalMid)"
+                    />
+                  </g>
+
+                  {/* Layer 4: Inner Cup (Brighter) */}
+                  <g className="transition-all duration-[1500ms] ease-out delay-500"
+                     style={{ transform: isBlooming ? 'scale(1)' : 'scale(0.1) translateY(20px)' }}>
+                     <path
+                      d="M-25,0 C-50,-20 -50,-90 0,-100 C50,-90 50,-20 25,0 C10,10 -10,10 -25,0"
+                      fill="url(#petalBright)"
+                    />
+                  </g>
+
+                  {/* Layer 5: Center Spiral (The Core) */}
+                  <g className="transition-all duration-[1500ms] ease-out delay-700"
+                     style={{ transform: isBlooming ? 'scale(1)' : 'scale(0)' }}>
+                    {/* Spiral Piece 1 */}
+                    <path
+                      d="M0,-20 C-20,-40 -20,-80 0,-90 C20,-80 20,-40 0,-20"
+                      fill="#e11d48"
+                      opacity="0.9"
+                    />
+                    {/* Spiral Piece 2 */}
+                    <path
+                      d="M-5,-40 C-15,-60 15,-60 5,-40"
+                      stroke="#fecdd3"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeLinecap="round"
+                    />
+                     {/* Tight Center */}
+                    <path
+                      d="M-10,-50 C-10,-70 10,-70 10,-50 C10,-40 -10,-40 -10,-50"
+                      fill="#fb7185"
+                    />
+                  </g>
+
+                  {/* Dew Drop (Extra detail) */}
+                  <circle 
+                    cx="-30" cy="-80" r="3" 
+                    fill="white" 
+                    opacity="0.6"
+                    className={`transition-opacity duration-1000 delay-[2000ms] ${isBlooming ? 'opacity-60' : 'opacity-0'}`}
+                  />
+                  
+                </g>
+              </svg>
+            </div>
+
+            {/* Message Card */}
+            <div 
+              className={`absolute bottom-16 left-0 right-0 mx-auto max-w-sm text-center transform transition-all duration-1000 delay-1000 ${
+                showMessage ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              }`}
+            >
+              <div className="bg-white/40 backdrop-blur-md p-8 rounded-2xl shadow-lg border border-white/50">
+                <p className="text-3xl text-[#881337] font-normal leading-relaxed font-serif italic mb-2">
+                  "Just a beautiful rose for a beautiful heart"
+                </p>
+                <div className="w-full flex justify-center mt-4 opacity-50">
+                   <div className="w-1 h-1 bg-[#be123c] rounded-full mx-1"></div>
+                   <div className="w-1 h-1 bg-[#be123c] rounded-full mx-1"></div>
+                   <div className="w-1 h-1 bg-[#be123c] rounded-full mx-1"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        )}
+      </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+          animation: fadeIn 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        @keyframes growStem {
+          from { stroke-dasharray: 400; stroke-dashoffset: 400; }
+          to { stroke-dasharray: 400; stroke-dashoffset: 0; }
+        }
+        .animate-grow-stem {
+          animation: growStem 2.5s ease-in-out forwards;
+        }
+      `}} />
+    </div>
+  );
+};
+
+export default App;
